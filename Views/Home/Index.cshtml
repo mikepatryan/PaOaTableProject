@@ -1,0 +1,74 @@
+﻿
+@model PaOaTableProject.Models.RolidexModel.RolidexCards
+
+<script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+
+@{
+    ViewBag.Title = "Home Page";
+
+}
+<br />
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Filter by ID..">
+<div class="table-responsive">
+    <table id="#dtRolidexTable" class="table table-bordered table-striped table-hover sortable form-select">
+        @if (Model.RolidexCardList.Count() == 0)
+        {
+            
+        }
+        else
+        {
+            <thead>
+                <tr class="danger">
+                    <th data-defaultsign="_19"> ID</th>
+                    <th data-defaultsign="AZ">Name</th>
+                    <th data-defaultsign="AZ">Email_Address</th>
+                    <th data-defaultsign="AZ">Street_Address</th>
+                    <th data-firstsort="AZ">Pets</th>
+                </tr>
+            </thead>
+
+            foreach (var item in Model.RolidexCardList)
+            {
+                <tr>
+                    <td class="itmId">@item._id</td>
+                    <td>@item.name</td>
+                    <td>@item.email</td>
+                    <td>@item.addressStreet, @item.addressTown, @item.addressPostcode</td>
+                    <td>@item.petsAll</td>
+                </tr>
+
+            }
+        }
+    </table>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $('#dtRolidexTable').DataTable();
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("#dtRolidexTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            /*td = tr[i].getElementsByTagName("td")[0];*/
+            td = tr[i].getElementsByClassName("itmId")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>
